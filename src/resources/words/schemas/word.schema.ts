@@ -1,9 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 
-export type CatDocument = HydratedDocument<Word>;
-
-@Schema()
+@Schema({
+  versionKey: false,
+  id: true,
+  toJSON: {
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.passwordHash;
+      delete ret.salt;
+    },
+  },
+})
 export class Word {
   @Prop()
   group: number;
