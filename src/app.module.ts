@@ -3,8 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { WordsModule } from './resources/words/words.module';
 import { UserWordsModule } from './resources/userWords/userWords.module';
 import { UsersModule } from './resources/users/users.module';
-import { AuthController } from './resources/auth/auth.controller';
-import { AuthService } from './resources/auth/auth.service';
 import { AuthModule } from './resources/auth/auth.module';
 
 @Module({
