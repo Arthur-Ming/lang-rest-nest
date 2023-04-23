@@ -1,16 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import schemaOptions from 'src/utils/schemaOptions';
 
-@Schema({
-  versionKey: false,
-  id: true,
-  toJSON: {
-    transform(doc, ret) {
-      ret.id = ret._id;
-      delete ret._id;
-      delete ret.password;
-    },
-  },
-})
+@Schema(schemaOptions())
 export class User {
   @Prop({ required: true, unique: true })
   email: string;

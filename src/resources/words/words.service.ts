@@ -1,8 +1,9 @@
-import { Model, ObjectId } from 'mongoose';
+import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Word } from './schemas/word.schema';
 import { WordParamsDto } from './dto/get-words.dto';
+import { GetWordByIdDto } from './dto/get-one.dto';
 
 @Injectable()
 export class WordsService {
@@ -12,7 +13,7 @@ export class WordsService {
     return await this.wordModel.find({ page, group });
   }
 
-  async getWordById(id: ObjectId): Promise<Word> {
-    return await this.wordModel.findById(id);
+  async getWordById({ wordId }: GetWordByIdDto): Promise<Word> {
+    return await this.wordModel.findById(wordId);
   }
 }

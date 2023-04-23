@@ -1,18 +1,19 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { WordsService } from './words.service';
-import { ObjectId } from 'mongoose';
+import { WordParamsDto } from './dto/get-words.dto';
+import { GetWordByIdDto } from './dto/get-one.dto';
 
 @Controller('words')
 export class WordsController {
   constructor(private wordsService: WordsService) {}
 
   @Get()
-  getWords(@Query('page') page: number, @Query('group') group: number) {
-    return this.wordsService.getWords({ page, group });
+  getWords(@Query() params: WordParamsDto) {
+    return this.wordsService.getWords(params);
   }
 
-  @Get(':id')
-  getWordById(@Param('id') id: ObjectId) {
-    return this.wordsService.getWordById(id);
+  @Get(':wordId')
+  getWordById(@Param() params: GetWordByIdDto) {
+    return this.wordsService.getWordById(params);
   }
 }

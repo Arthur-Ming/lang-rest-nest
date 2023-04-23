@@ -4,13 +4,10 @@ import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../users/schemas/user.schema';
-import { LocalStrategy } from './local.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-
-export const jwtConstants = {
-  secret: 'DO NOT USE THIS VALUE',
-};
+import { jwtConstants } from './constants';
 
 @Module({
   imports: [
@@ -19,7 +16,7 @@ export const jwtConstants = {
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '600s' },
     }),
   ],
   controllers: [AuthController],
