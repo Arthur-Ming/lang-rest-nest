@@ -7,16 +7,21 @@ import { User, UserSchema } from '../users/schemas/user.schema';
 import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule,
-    JwtModule.register({
+    JwtModule.registerAsync({
       global: true,
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '600s' },
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get('jwt').secret,
+        signOptions: {
+          expiresIn: configService.get('jwt').expiresIn,
+        },
+      }),
     }),
   ],
   controllers: [AuthController],

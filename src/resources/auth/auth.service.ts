@@ -4,6 +4,7 @@ import { User } from '../users/schemas/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -30,5 +31,10 @@ export class AuthService {
     return {
       token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  async getUser(id: string) {
+    const user = await this.userModel.findById(id);
+    return user;
   }
 }

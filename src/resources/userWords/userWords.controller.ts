@@ -1,8 +1,10 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { UserWordsService } from './userWords.service';
 import { MutateUserWordsDto } from './dto/mutate-words.dto';
 import { GetUserWordsDto } from './dto/get-words.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('/users/:userId/words')
 export class UserWordsController {
   constructor(private userWordsService: UserWordsService) {}

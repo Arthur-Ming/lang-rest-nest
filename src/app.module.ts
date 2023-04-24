@@ -4,12 +4,22 @@ import { WordsModule } from './resources/words/words.module';
 import { UserWordsModule } from './resources/userWords/userWords.module';
 import { UsersModule } from './resources/users/users.module';
 import { AuthModule } from './resources/auth/auth.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import config from './config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://Arthur:6kpsDX2Tw3UGHnG@cluster0.x5m5nwl.mongodb.net/en-lang?retryWrites=true&w=majority'
-    ),
+    ConfigModule.forRoot({
+      load: [config],
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('mongodb').uri,
+      }),
+    }),
     WordsModule,
     UserWordsModule,
     UsersModule,
